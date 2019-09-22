@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">HomeMaker</string>
     <string name="recipe_list">Recipe List</string>
+    <string name="title_activity_recipe_list">RecipeListActivity</string>
+    <string name="entry_label">%1$d: %2$s</string>
+    <string name="title_of_recipe">Title of Recipe</string>
+    <string name="ingredient_list">Ingredient List</string>
+    <string name="directions">Directions</string>
+    <string name="get_image">Get Image</string>
+
 </resources>
