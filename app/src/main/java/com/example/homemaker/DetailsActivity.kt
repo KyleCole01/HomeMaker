@@ -2,25 +2,27 @@ package com.example.homemaker
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log.i
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.SeekBar
+import android.provider.MediaStore
+import com.example.homemaker.database.storeImage
 import com.example.homemaker.models.Recipe
 import kotlinx.android.synthetic.main.activity_recipe_detail.*
+import java.io.File
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.Picasso
+
 
 class DetailsActivity : AppCompatActivity() {
 
     companion object {
         private const val IMAGE_REQUEST_CODE = 50
     }
-
+    var haspic:Boolean = false
     private var entry: Recipe =
         Recipe(Recipe.INVALID_ID)
+    private var entryBitmap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,15 +36,28 @@ class DetailsActivity : AppCompatActivity() {
         recipe_entry_title_et.setText(entry.title)
         recipe_entry_directions.setText(entry.directions)
         recipe_entry_ingredient_list_et.setText(entry.ingredientList)
-
-
-
-
-        val imageUri = entry.getImage()
-        if (imageUri != null) {
-            journal_entry_image?.setImageURI(imageUri)
+        if(entry.isfavorite){
+            fav_img_view.setImageDrawable(getDrawable(R.drawable.ic_star_black_24dp))
+        }else{
+            fav_img_view.setImageDrawable(getDrawable(R.drawable.ic_star_border_black_24dp))
         }
+            fav_img_view.setOnClickListener {
+                entry.isfavorite = !entry.isfavorite
+                if(entry.isfavorite){
+                    fav_img_view.setImageDrawable(getDrawable(R.drawable.ic_star_black_24dp))
+                }else{
+                    fav_img_view.setImageDrawable(getDrawable(R.drawable.ic_star_border_black_24dp))
+                }
+            }
 
+        val directory = File(this@DetailsActivity.filesDir, "imageDir")
+        if(directory.exists()){
+                val file = File(directory,"${entry.title}.png")
+                Picasso.get()
+                    .load(file).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                    .into(recipe_image)
+
+            }
         add_image_button.setOnClickListener {
             val imageIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             imageIntent.apply {
@@ -62,20 +77,34 @@ class DetailsActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_REQUEST_CODE && data != null) {
             data.data?.let {
+                entryBitmap = MediaStore.Images.Media.getBitmap(this@DetailsActivity.contentResolver, it)
                 entry.setImage(it)
-                journal_entry_image.setImageURI(it)
+                recipe_image.setImageURI(it)
+                haspic = true
+                val directory = File(this.filesDir, "imageDir")
+                val file = File(directory,"${entry.title}.png")
+                if(file.exists()){
+                    file.delete()
+                }
+
             }
         }
     }
-
     override fun onBackPressed() {
         val resultIntent = Intent()
         entry.title = recipe_entry_title_et.text.toString()
         entry.ingredientList = recipe_entry_ingredient_list_et.text.toString()
         entry.directions = recipe_entry_directions.text.toString()
+        if(haspic) {
+                    storeImage(entryBitmap, entry.title!!, this@DetailsActivity)
+                    }
         resultIntent.putExtra(Recipe.TAG, entry)
-        setResult(Activity.RESULT_OK, resultIntent)
-        finish()
-        super.onBackPressed()
+        this@DetailsActivity.setResult(Activity.RESULT_OK, resultIntent)
+        this@DetailsActivity.finish()
+
+
+        }
+
+
+
     }
-}

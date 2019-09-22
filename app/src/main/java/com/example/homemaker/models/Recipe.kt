@@ -3,6 +3,7 @@ package com.example.homemaker.models
 import android.net.Uri
 import androidx.annotation.NonNull
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import org.json.JSONException
 import org.json.JSONObject
@@ -19,9 +20,13 @@ class Recipe : Serializable {
     }
 
     var title: String? = null
+    @Ignore
+    var updatedId: Int = 0
     var ingredientList: String? = null
     var image: String? = null
     var directions: String? = null
+    var filePath:String? = null
+    var isfavorite:Boolean = false
 
     // TODO 7: Let's make id the primary key
     @PrimaryKey(autoGenerate = true) @NonNull

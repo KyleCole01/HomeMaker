@@ -24,7 +24,9 @@ class RecipeViewModel : ViewModel() {
     fun updateRecipe(recipe: Recipe) {
         repo.updateRecipe(recipe)
     }
-
+    fun deleteRecipe(recipe:Recipe){
+        repo.deleteRecipe(recipe)
+    }
 
 
 }
