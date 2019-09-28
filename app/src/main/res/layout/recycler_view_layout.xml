@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/colorTertiary"
+    android:layout_margin="8dp"
+    android:elevation="@dimen/cardview_default_elevation"
+    app:cardCornerRadius="18dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="PrivateResource">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:id="@+id/layout_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
 
@@ -12,8 +23,12 @@
         android:layout_width="75sp"
         android:layout_height="75sp"
         android:src="@drawable/ic_launcher_background"
+        android:adjustViewBounds="true"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="7dp"
+        android:layout_marginStart="10dp"
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:id="@+id/layout_title_view"
@@ -21,6 +36,7 @@
         android:layout_height="wrap_content"
         android:text="This is a Test Recipe"
         android:textSize="25sp"
+        android:textColor="@android:color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/layout_img_view"
         app:layout_constraintStart_toEndOf="@id/layout_img_view"
@@ -34,13 +50,5 @@
         app:layout_constraintTop_toTopOf="@id/layout_title_view"
         app:layout_constraintStart_toEndOf="@id/layout_title_view"/>
 
-
-
-
-
-
-
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -7,26 +7,20 @@ import com.example.homemaker.repo
 
 class RecipeViewModel : ViewModel() {
 
-    // TODO 25: Create a LiveData object for the entries
-    val entries: LiveData<List<Recipe>> by lazy {
+    val entries: LiveData<MutableList<Recipe>> by lazy {
         readAllRecipes()
     }
 
-    // TODO 26: Recreate the repo calls to as functions here.
-    fun readAllRecipes() : LiveData<List<Recipe>> {
+    fun readAllRecipes() : LiveData<MutableList<Recipe>> {
         return repo.readAllRecipes()
     }
-
     fun createRecipe(recipe: Recipe) {
         repo.createRecipe(recipe)
     }
-
     fun updateRecipe(recipe: Recipe) {
         repo.updateRecipe(recipe)
     }
     fun deleteRecipe(recipe:Recipe){
         repo.deleteRecipe(recipe)
     }
-
-
 }

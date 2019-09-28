@@ -74,7 +74,7 @@ class RecipeFileRepo(var context: Context): RecipeRepoInterface {
             return state == Environment.MEDIA_MOUNTED
         }
 
-    override fun readAllRecipes(): LiveData<List<Recipe>> {
+    override fun readAllRecipes(): LiveData<MutableList<Recipe>> {
         val entries = ArrayList<Recipe>()
 
         for (filename in filelist) {
@@ -85,7 +85,7 @@ class RecipeFileRepo(var context: Context): RecipeRepoInterface {
                 e.printStackTrace()
             }
         }
-        val liveData = MutableLiveData<List<Recipe>>()
+        val liveData = MutableLiveData<MutableList<Recipe>>()
         liveData.postValue(entries)
         return liveData
     }

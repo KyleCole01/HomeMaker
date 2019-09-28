@@ -12,7 +12,7 @@ class RecipeDBRepo(val context: Context) : RecipeRepoInterface {
         database.RecipeDao().createRecipe(recipe)
     }
 
-    override fun readAllRecipes(): LiveData<List<Recipe>> {
+    override fun readAllRecipes(): LiveData<MutableList<Recipe>> {
         return database.RecipeDao().readAllRecipes()
     }
 
@@ -24,7 +24,6 @@ class RecipeDBRepo(val context: Context) : RecipeRepoInterface {
         database.RecipeDao().deleteRecipe(recipe)
     }
 
-    // TODO 15: Build the Room database
     private val database/**/ by lazy {
         Room.databaseBuilder(
             context.applicationContext,

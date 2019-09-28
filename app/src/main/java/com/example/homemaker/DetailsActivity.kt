@@ -55,6 +55,7 @@ class DetailsActivity : AppCompatActivity() {
                 val file = File(directory,"${entry.title}.png")
                 Picasso.get()
                     .load(file).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                    .resize(750,500)
                     .into(recipe_image)
 
             }
@@ -95,6 +96,7 @@ class DetailsActivity : AppCompatActivity() {
         entry.title = recipe_entry_title_et.text.toString()
         entry.ingredientList = recipe_entry_ingredient_list_et.text.toString()
         entry.directions = recipe_entry_directions.text.toString()
+
         if(haspic) {
                     storeImage(entryBitmap, entry.title!!, this@DetailsActivity)
                     }
